@@ -2,7 +2,7 @@ name: Record IPTV
 
 on:
   schedule:
-    - cron: "58 16 27 3 *"
+    - cron: "30 16 27 3 *"
   workflow_dispatch:
 
 jobs:
@@ -17,10 +17,10 @@ jobs:
 
     - name: Record stream
       run: |
-        ffmpeg -i "https://live.fptplay53.net/live/media/VTV_can_tho/live_hls_avc/index.m3u8" -t 1920 -c copy video.ts
+        ffmpeg -i "https://live.fptplay53.net/live/media/VTV_can_tho/live_hls_avc/index.m3u8" -t 5400 -c copy video.ts
 
     - name: Upload video
       uses: actions/upload-artifact@v4
       with:
-        name: record
+        name: video
         path: video.ts
