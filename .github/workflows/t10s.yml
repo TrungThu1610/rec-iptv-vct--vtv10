@@ -1,0 +1,24 @@
+name: Test Record 10s
+
+on:
+  workflow_dispatch:
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install ffmpeg
+      run: |
+        sudo apt update
+        sudo apt install ffmpeg -y
+
+    - name: Record stream
+      run: |
+        ffmpeg -i "https://live.fptplay53.net/live/media/VTV_can_tho/live_hls_avc/index.m3u8" -t 10 -c copy video.ts
+
+    - name: Upload video
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-video
+        path: video.ts
