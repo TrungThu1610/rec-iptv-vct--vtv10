@@ -1,0 +1,27 @@
+name: YouTube Live 10h25
+
+on:
+  schedule:
+    - cron: "25 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install FFmpeg
+        run: |
+          sudo apt update
+          sudo apt install ffmpeg -y
+
+      - name: Start Stream
+        run: |
+          ffmpeg -re \
+          -user_agent "Mozilla/5.0" \
+          -fflags +genpts \
+          -i "https://live.fptplay53.net/live/media/VTV_can_tho/live_hls_avc/index.m3u8" \
+          -c:v copy \
+          -c:a aac -b:a 128k -ar 44100 \
+          -t 300 \
+          -f flv rtmp://a.rtmp.youtube.com/live2/ff4x-uhpr-h35v-1quj-27b0
