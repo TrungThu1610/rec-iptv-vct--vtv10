@@ -1,4 +1,4 @@
-name: Record 5 Minutes
+name: Record M3U 1 Minute
 
 on:
   workflow_dispatch:
@@ -13,19 +13,11 @@ jobs:
           sudo apt update
           sudo apt install -y ffmpeg
 
-      - name: Record 5 minutes
-        run: |
-          ffmpeg -loglevel error -y \
-          -i https://live.fptplay53.net/live/media/VTV_can_tho/live_hls_avc/index.m3u8 \
-          -map 0 \
-          -c copy \
-          -fflags +genpts \
-          -avoid_negative_ts make_zero \
-          -t 300 \
-          output.ts
+      - name: Record 1 minute
+        run: ffmpeg -loglevel error -y -i https://live.fptplay53.net/fnxch2/vtvcantho_abr.smil/chunklist_b4200000.m3u8 -map 0 -c copy -t 60 output.ts
 
       - name: Upload file
         uses: actions/upload-artifact@v4
         with:
-          name: video-5p
+          name: video-1p
           path: output.ts
